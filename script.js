@@ -202,76 +202,61 @@ console.log("Database initialized with 15 complete Ragas!");
 
 // --- THE DISPLAY & SEARCH LOGIC ---
 
-// 1. Grab the HTML elements we need to control
 const searchInput = document.getElementById('searchInput');
 const resultsContainer = document.getElementById('resultsContainer');
 
-// 2. Create a function that draws the ragas on the screen
 function displayRagas(ragasToDisplay) {
-    // Clear the container first so we don't get duplicates
     resultsContainer.innerHTML = "";
 
-    // Loop through the list of ragas and build an HTML card for each one
     ragasToDisplay.forEach(raga => {
         const card = document.createElement('div');
-        card.classList.add('raga-card'); // We will style this in CSS later
+        card.classList.add('raga-card'); 
         
         card.innerHTML = `
             <div class="card-header">
                 <h2>${raga.name}</h2>
                 <span class="time-badge">${raga.time}</span>
             </div>
-            
             <div class="card-body">
                 <div class="swara-section">
                     <p><strong>Aaroh:</strong> ${raga.aarohSwaras} <br> <span class="scale-text">(${raga.aarohScale})</span></p>
                     <p><strong>Avroh:</strong> ${raga.avrohSwaras} <br> <span class="scale-text">(${raga.avrohScale})</span></p>
                     <p class="pakad-text"><strong>Pakad:</strong> ${raga.pakad}</p>
                 </div>
-                
                 <hr>
-                
                 <div class="equivalency-section">
                     <p><strong>Western:</strong> ${raga.westernEquivalent}</p>
                     <p><strong>Carnatic:</strong> ${raga.carnaticEquivalent}</p>
                 </div>
-                
                 <hr>
-                
                 <p class="mood-text"><strong>Mood:</strong> ${raga.mood}</p>
             </div>
         `;
-        
-        // Add the finished card to the webpage
         resultsContainer.appendChild(card);
     });
 }
 
-// 3. Show all 15 ragas immediately when the page first loads
+// Show all ragas initially
 displayRagas(ragaDatabase);
 
-// 4. Make the search bar work WITH RELEVANCE SORTING!
+// The Smart Search with Relevance Sorting
 searchInput.addEventListener('input', (event) => {
-    // Get the typed text, make it lowercase, and remove extra spaces
     const searchTerm = event.target.value.toLowerCase().trim();
 
-    // If the search bar is empty, just show everything in default order
     if (searchTerm === "") {
         displayRagas(ragaDatabase);
         return;
     }
 
-	// STEP A: Give each raga a "relevance score"
     const scoredRagas = ragaDatabase.map(raga => {
         let score = 0;
 
-        // Name matches
+        // Name
         if (raga.name.toLowerCase().includes(searchTerm)) score += 50;
         if (raga.name.toLowerCase().startsWith(searchTerm)) score += 50; 
 
-        // Equivalencies (Western/Carnatic)
+        // Equivalencies
         if (raga.westernEquivalent.toLowerCase().includes(searchTerm)) score += 40;
-        // ADD THIS LINE FOR THE BONUS POINTS:
         if (raga.westernEquivalent.toLowerCase().startsWith(searchTerm)) score += 40; 
         
         if (raga.carnaticEquivalent.toLowerCase().includes(searchTerm)) score += 40;
@@ -286,16 +271,14 @@ searchInput.addEventListener('input', (event) => {
 
         return { raga: raga, score: score };
     });
-	
-    // STEP B: Filter out anything that has a score of 0 (no match at all)
+
+    // Filter out 0 scores
     const filteredRagas = scoredRagas.filter(item => item.score > 0);
 
-    // STEP C: Sort the remaining ragas from highest score to lowest score
+    // Sort by highest score first
     filteredRagas.sort((a, b) => b.score - a.score);
 
-    // STEP D: Extract just the raga data to send back to our display function
+    // Extract the raw raga data and display
     const finalSortedRagas = filteredRagas.map(item => item.raga);
-
-    // Draw the newly sorted screen!
     displayRagas(finalSortedRagas);
 });
