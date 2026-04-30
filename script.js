@@ -261,28 +261,32 @@ searchInput.addEventListener('input', (event) => {
         return;
     }
 
-    // STEP A: Give each raga a "relevance score"
+	// STEP A: Give each raga a "relevance score"
     const scoredRagas = ragaDatabase.map(raga => {
         let score = 0;
 
-        // Name matches get the absolute highest score
+        // Name matches
         if (raga.name.toLowerCase().includes(searchTerm)) score += 50;
-        if (raga.name.toLowerCase().startsWith(searchTerm)) score += 50; // Bonus points if it starts with the letter
+        if (raga.name.toLowerCase().startsWith(searchTerm)) score += 50; 
 
-        // Equivalencies (Western/Carnatic) get a high score
+        // Equivalencies (Western/Carnatic)
         if (raga.westernEquivalent.toLowerCase().includes(searchTerm)) score += 40;
+        // ADD THIS LINE FOR THE BONUS POINTS:
+        if (raga.westernEquivalent.toLowerCase().startsWith(searchTerm)) score += 40; 
+        
         if (raga.carnaticEquivalent.toLowerCase().includes(searchTerm)) score += 40;
+        if (raga.carnaticEquivalent.toLowerCase().startsWith(searchTerm)) score += 40;
 
-        // Mood and time get a medium score
+        // Mood and time
         if (raga.mood.toLowerCase().includes(searchTerm)) score += 20;
         if (raga.time.toLowerCase().includes(searchTerm)) score += 20;
 
-        // Pakad gets a lower score
+        // Pakad 
         if (raga.pakad.toLowerCase().includes(searchTerm)) score += 10;
 
         return { raga: raga, score: score };
     });
-
+	
     // STEP B: Filter out anything that has a score of 0 (no match at all)
     const filteredRagas = scoredRagas.filter(item => item.score > 0);
 
