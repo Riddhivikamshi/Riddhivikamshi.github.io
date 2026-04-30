@@ -25,6 +25,19 @@ header h1 {
     margin-bottom: 0.5rem;
 }
 
+/* THE NEW INTRO BOX STYLING */
+.intro-box {
+    max-width: 800px; /* Keeps the text from stretching too wide */
+    margin: 1.5rem auto 0; /* Centers it and adds space on top */
+    background-color: #e2e8f0; /* A soft grey background */
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.6;
+    border-left: 4px solid #3b82f6; /* A nice blue accent line on the left */
+}
+
 .search-section {
     display: flex;
     justify-content: center;
