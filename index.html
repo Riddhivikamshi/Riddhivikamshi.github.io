@@ -1,45 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<header>
-<meta charset="UTF-8">
-<title>tabby cat</title>
-<link href="styles.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
-</header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaagaSearch | Digital Raga Database</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
 <body>
-<h1>
-good afternoon, 261!
-</h1>
-<p>
-  <h2>yooooooooooo</h2>
-  <hr />
-  <div>
-  <blockquote><b><i><u> "meoooooooow" </u></i></b></blockquote>
-</div>
-  <br>
-  <div>
-  <a href="http://racheldevorah.studio"> my real website </a>
-  </div>
-   <br>
-  <div>
-  <img src="oprah.gif">
-</div>
-    <div>
-<ul>
-		<li>corn</li>
-		<li>squash</li>
-		<li>beans</li>
-</ul>
-</div>
-<br>
-<div>
-  <audio controls> <source src="mtec343.mp3" type="audio/mpeg"></audio> 
-  <br>
-</div>
-<div>
-	    <script src="orbits.js"></script>
-</div>
-</p>
+
+    <header>
+        <h1>RaagaSearch</h1>
+        <p>A Digital Database of North Indian Ragas: Swaras, Scale Degrees, and Cross-System Equivalencies</p>
+    </header>
+
+    <main>
+        <section class="search-section">
+            <input type="text" id="searchInput" placeholder="Search by Raga name, Western mode, Mood, or Pakad...">
+        </section>
+
+        <section id="resultsContainer" class="results-grid">
+            </section>
+    </main>
+
+    <script src="script.js"></script> 
 </body>
 </html>
