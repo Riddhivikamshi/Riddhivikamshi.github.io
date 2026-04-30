@@ -250,23 +250,48 @@ function displayRagas(ragasToDisplay) {
 // 3. Show all 15 ragas immediately when the page first loads
 displayRagas(ragaDatabase);
 
-// 4. Make the search bar work!
+// 4. Make the search bar work WITH RELEVANCE SORTING!
 searchInput.addEventListener('input', (event) => {
-    // Get whatever the user typed and make it lowercase
-    const searchTerm = event.target.value.toLowerCase();
-    
-    // Filter the database
-    const filteredRagas = ragaDatabase.filter(raga => {
-        // Return true if the search term is found in the Name, Western Mode, Carnatic equivalent, Mood, OR the Pakad!
-        return (
-            raga.name.toLowerCase().includes(searchTerm) ||
-            raga.westernEquivalent.toLowerCase().includes(searchTerm) ||
-            raga.carnaticEquivalent.toLowerCase().includes(searchTerm) ||
-            raga.mood.toLowerCase().includes(searchTerm) ||
-            raga.pakad.toLowerCase().includes(searchTerm)
-        );
+    // Get the typed text, make it lowercase, and remove extra spaces
+    const searchTerm = event.target.value.toLowerCase().trim();
+
+    // If the search bar is empty, just show everything in default order
+    if (searchTerm === "") {
+        displayRagas(ragaDatabase);
+        return;
+    }
+
+    // STEP A: Give each raga a "relevance score"
+    const scoredRagas = ragaDatabase.map(raga => {
+        let score = 0;
+
+        // Name matches get the absolute highest score
+        if (raga.name.toLowerCase().includes(searchTerm)) score += 50;
+        if (raga.name.toLowerCase().startsWith(searchTerm)) score += 50; // Bonus points if it starts with the letter
+
+        // Equivalencies (Western/Carnatic) get a high score
+        if (raga.westernEquivalent.toLowerCase().includes(searchTerm)) score += 40;
+        if (raga.carnaticEquivalent.toLowerCase().includes(searchTerm)) score += 40;
+
+        // Mood and time get a medium score
+        if (raga.mood.toLowerCase().includes(searchTerm)) score += 20;
+        if (raga.time.toLowerCase().includes(searchTerm)) score += 20;
+
+        // Pakad gets a lower score
+        if (raga.pakad.toLowerCase().includes(searchTerm)) score += 10;
+
+        return { raga: raga, score: score };
     });
 
-    // Draw the screen again using only the filtered results
-    displayRagas(filteredRagas);
+    // STEP B: Filter out anything that has a score of 0 (no match at all)
+    const filteredRagas = scoredRagas.filter(item => item.score > 0);
+
+    // STEP C: Sort the remaining ragas from highest score to lowest score
+    filteredRagas.sort((a, b) => b.score - a.score);
+
+    // STEP D: Extract just the raga data to send back to our display function
+    const finalSortedRagas = filteredRagas.map(item => item.raga);
+
+    // Draw the newly sorted screen!
+    displayRagas(finalSortedRagas);
 });
