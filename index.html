@@ -8,24 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 2. CSS VARIABLES FOR DARK/LIGHT MODE --- */
+		/* --- 2. CSS VARIABLES FOR DARK/LIGHT MODE --- */
         :root {
-            --bg-color: #f4f4f9;
-            --text-color: #333333;
-            --card-bg: #ffffff;
-            --border-color: #e2e8f0;
-            --accent-color: #3b82f6;
-            --badge-bg: #e0f2fe;
-            --badge-text: #0369a1;
+            /* Your New Custom Palette */
+            --bg-color: #DCE6F2;       /* The light blue/gray background */
+            --card-bg: #F0F1F2;        /* The light gray for boxes */
+            --heading-color: #F285E0;  /* The pink for headings */
+            
+            /* Kept the blue, black, and white accents */
+            --text-color: #333333;     /* Black/Dark Gray text */
+            --border-color: #cbd5e1;
+            --accent-color: #3b82f6;   /* The original nice blue */
+            --badge-bg: #ffffff;       /* White for badges to pop against the gray */
+            --badge-text: #3b82f6;     
             --subtext-color: #64748b;
-            --intro-bg: #e2e8f0;
+            --intro-bg: #F0F1F2;       /* Matching the boxes */
         }
 
-        /* When the 'dark-mode' class is added to the body, these colors take over! */
+        /* Dark Mode Colors (Kept dark, but with your pink/blue accents!) */
         body.dark-mode {
             --bg-color: #0f172a;
-            --text-color: #f8fafc;
             --card-bg: #1e293b;
+            --heading-color: #F285E0;  /* Pink looks GREAT on dark blue! */
+            
+            --text-color: #f8fafc;
             --border-color: #334155;
             --accent-color: #60a5fa;
             --badge-bg: #0c4a6e;
@@ -42,12 +48,16 @@
         }
 
         body {
-            /* USING POPPINS FONT HERE! */
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color); 
             color: var(--text-color); 
             padding: 2rem;
             transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Ensure ALL headings use your new pink color */
+        h1, h2, h3 {
+            color: var(--heading-color);
         }
 
         /* --- 4. HEADER & TOGGLE BUTTON --- */
@@ -63,7 +73,7 @@
             right: 0;
             background: var(--card-bg);
             color: var(--text-color);
-            border: 2px solid var(--border-color);
+            border: 2px solid var(--accent-color); /* Blue border */
             padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
@@ -73,12 +83,12 @@
         }
 
         .theme-toggle:hover {
-            border-color: var(--accent-color);
+            background: var(--accent-color);
+            color: #ffffff; /* Turns blue with white text on hover! */
         }
 
         header h1 {
             font-size: 2.5rem;
-            color: var(--accent-color);
             margin-bottom: 0.5rem;
         }
 
@@ -90,7 +100,7 @@
             border-radius: 8px;
             font-size: 0.95rem;
             line-height: 1.6;
-            border-left: 4px solid var(--accent-color); 
+            border-left: 4px solid var(--accent-color); /* Blue accent line */
         }
 
         /* --- 5. THE NEW LAYOUT (SIDEBAR + MAIN CONTENT) --- */
