@@ -932,3 +932,18 @@ searchInput.addEventListener('input', (event) => {
     const finalSortedRagas = filteredRagas.map(item => item.raga);
     displayRagas(finalSortedRagas);
 });
+
+// --- DARK MODE TOGGLE LOGIC ---
+const themeToggle = document.getElementById('themeToggle');
+
+themeToggle.addEventListener('click', () => {
+    // Toggle the 'dark-mode' class on the body element
+    document.body.classList.toggle('dark-mode');
+    
+    // Change the text of the button depending on the mode
+    if (document.body.classList.contains('dark-mode')) {
+        themeToggle.innerText = '☀️ Light Mode';
+    } else {
+        themeToggle.innerText = '🌙 Dark Mode';
+    }
+});
