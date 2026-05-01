@@ -43,29 +43,123 @@
             background-color: #e2e8f0; 
             padding: 1rem 1.5rem;
             border-radius: 8px;
-            font-size: 0
-  
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+            border-left: 4px solid #3b82f6; 
+        }
+
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            margin-top: 2rem; 
+        }
+
+        #searchInput {
+            width: 100%;
+            max-width: 600px;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 30px; 
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: #3b82f6; 
+        }
+
+        /* --- 3. THE RAGA CARDS GRID --- */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .raga-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.5rem;
+        }
+
+        .card-header h2 {
+            color: #1e293b;
+            font-size: 1.5rem;
+        }
+
+        .time-badge {
+            font-size: 0.85rem;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .swara-section p {
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .scale-text {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-left: 1rem;
+        }
+
+        .pakad-text {
+            margin-top: 1rem;
+            font-style: italic;
+            color: #0f172a;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e2e8f0;
+            margin: 1rem 0;
+        }
+
+        .equivalency-section p, .mood-text {
+            margin-bottom: 0.4rem;
+        }
+    </style>
 </head>
+
 <body>
 
-   <header>
-           <h1>RaagaSearch</h1>
-           <p>A Digital Database of North Indian Ragas: Swaras, Scale Degrees, and Cross-System Equivalencies</p>
+    <header>
+        <h1>RaagaSearch</h1>
+        <p>A Digital Database of North Indian Ragas: Swaras, Scale Degrees, and Cross-System Equivalencies</p>
         
-           <div class="intro-box">
-               <p>Hi, I'm <strong>Riddhi Vikamshi</strong>, and this is a database that I created for my Programming class at Berklee. I do not own all of this information, it is all sourced from the web. I have coded this website with the help of Gemini. This is still a work in progress, so it doesn't have a lot of raagas. Please feel free to use it for personal and/or educational purposes.</p>
-           </div>
-       </header>
+        <div class="intro-box">
+            <p>Hi, I'm <strong>Riddhi Vikamshi</strong>, and this is a database that I created for my Programming class at Berklee. I do not own all of this information, it is all sourced from the web. I have coded this website with the help of Gemini. This is still a work in progress, so it doesn't have a lot of raagas. Please feel free to use it for personal and/or educational purposes.</p>
+        </div>
+    </header>
 
-	   <main>
-	           <section class="search-section">
-	               <input type="text" id="searchInput" placeholder="Search by Raaga name, Swaras, Scale Degrees, time it is performed at and Cross-System Equivalencies...">
-	           </section>
+    <main>
+        <section class="search-section">
+            <input type="text" id="searchInput" placeholder="Search by Raaga name, Swaras, Scale Degrees, time it is performed at and Cross-System Equivalencies...">
+        </section>
 
-	           <section id="resultsContainer" class="results-grid">
-	               </section>
-	       </main>
+        <section id="resultsContainer" class="results-grid">
+        </section>
+    </main>
 
-	       <script src="script.js"></script> 
-	   </body>
-	   </html>
+    <script src="script.js"></script> 
+</body>
+</html>
