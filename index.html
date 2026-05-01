@@ -5,8 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RaagaSearch | Digital Raga Database</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- 1. GLOBAL RESET & FONTS --- */
+        /* --- 2. CSS VARIABLES FOR DARK/LIGHT MODE --- */
+        :root {
+            --bg-color: #f4f4f9;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --accent-color: #3b82f6;
+            --badge-bg: #e0f2fe;
+            --badge-text: #0369a1;
+            --subtext-color: #64748b;
+            --intro-bg: #e2e8f0;
+        }
+
+        /* When the 'dark-mode' class is added to the body, these colors take over! */
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --text-color: #f8fafc;
+            --card-bg: #1e293b;
+            --border-color: #334155;
+            --accent-color: #60a5fa;
+            --badge-bg: #0c4a6e;
+            --badge-text: #38bdf8;
+            --subtext-color: #94a3b8;
+            --intro-bg: #1e293b;
+        }
+
+        /* --- 3. GLOBAL STYLES --- */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,78 +42,153 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f9; 
-            color: #333333; 
+            /* USING POPPINS FONT HERE! */
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
             padding: 2rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* --- 2. HEADER & SEARCH BAR --- */
+        /* --- 4. HEADER & TOGGLE BUTTON --- */
         header {
             text-align: center;
             margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent-color);
         }
 
         header h1 {
             font-size: 2.5rem;
-            color: #2c3e50;
+            color: var(--accent-color);
             margin-bottom: 0.5rem;
         }
 
-        header p {
-            margin-bottom: 2rem; 
-        }
-
-        /* THE INTRO BOX STYLING */
         .intro-box {
             max-width: 800px; 
-            margin: 3rem auto 0; 
-            background-color: #e2e8f0; 
+            margin: 2rem auto 0; 
+            background-color: var(--intro-bg); 
             padding: 1rem 1.5rem;
             border-radius: 8px;
             font-size: 0.95rem;
-            color: #475569;
             line-height: 1.6;
-            border-left: 4px solid #3b82f6; 
+            border-left: 4px solid var(--accent-color); 
+        }
+
+        /* --- 5. THE NEW LAYOUT (SIDEBAR + MAIN CONTENT) --- */
+        .app-layout {
+            display: flex;
+            flex-direction: column; /* Stacks on mobile */
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1024px) {
+            .app-layout {
+                flex-direction: row; /* Side-by-side on laptops */
+                align-items: flex-start;
+            }
+        }
+
+        /* --- 6. GLOSSARY SIDEBAR --- */
+        .sidebar {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .sidebar {
+                width: 300px;
+                flex-shrink: 0;
+                position: sticky; /* Keeps it on screen when scrolling down */
+                top: 2rem;
+            }
+        }
+
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .glossary-item {
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .glossary-item strong {
+            display: block;
+            color: var(--text-color);
+            margin-bottom: 0.2rem;
+        }
+
+        /* --- 7. MAIN CONTENT & SEARCH --- */
+        .main-content {
+            flex-grow: 1;
         }
 
         .search-section {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 3rem;
-            margin-top: 2rem; 
+            margin-bottom: 2rem;
         }
 
         #searchInput {
             width: 100%;
-            max-width: 600px;
             padding: 15px 20px;
             font-size: 1.1rem;
-            border: 2px solid #cbd5e1;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
             border-radius: 30px; 
             outline: none;
             transition: border-color 0.3s ease;
         }
 
         #searchInput:focus {
-            border-color: #3b82f6; 
+            border-color: var(--accent-color); 
         }
 
-        /* --- 3. THE RAGA CARDS GRID --- */
+        /* --- 8. THE RAGA CARDS GRID --- */
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 1.5rem;
         }
 
         .raga-card {
-            background: #ffffff;
+            background: var(--card-bg);
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .raga-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
         }
 
         .card-header {
@@ -93,49 +196,44 @@
             justify-content: space-between;
             align-items: baseline;
             margin-bottom: 1rem;
-            border-bottom: 2px solid #f1f5f9;
+            border-bottom: 2px solid var(--border-color);
             padding-bottom: 0.5rem;
         }
 
         .card-header h2 {
-            color: #1e293b;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         .time-badge {
-            font-size: 0.85rem;
-            background: #e0f2fe;
-            color: #0369a1;
+            font-size: 0.8rem;
+            background: var(--badge-bg);
+            color: var(--badge-text);
             padding: 4px 10px;
             border-radius: 12px;
-            font-weight: bold;
+            font-weight: 600;
         }
 
-        .swara-section p {
+        .swara-section p, .equivalency-section p, .mood-text {
             margin-bottom: 0.5rem;
-            line-height: 1.4;
+            line-height: 1.5;
+            font-size: 0.95rem;
         }
 
         .scale-text {
-            font-size: 0.9rem;
-            color: #64748b;
+            font-size: 0.85rem;
+            color: var(--subtext-color);
             margin-left: 1rem;
         }
 
         .pakad-text {
             margin-top: 1rem;
             font-style: italic;
-            color: #0f172a;
         }
 
         hr {
             border: none;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid var(--border-color);
             margin: 1rem 0;
-        }
-
-        .equivalency-section p, .mood-text {
-            margin-bottom: 0.4rem;
         }
     </style>
 </head>
@@ -143,22 +241,51 @@
 <body>
 
     <header>
+        <button id="themeToggle" class="theme-toggle">🌙 Dark Mode</button>
         <h1>RaagaSearch</h1>
-        <p>A Digital Database of North Indian Ragas: Swaras, Scale Degrees, and Cross-System Equivalencies</p>
+        <p>A Digital Database of North Indian Ragas</p>
         
         <div class="intro-box">
-            <p>Hi, I'm <strong>Riddhi Vikamshi</strong>, and this is a database that I created for my Programming class at Berklee. I do not own all of this information, it is all sourced from the web. I have coded this website with the help of Gemini. This is still a work in progress, so it doesn't have a lot of raagas. Please feel free to use it for personal and/or educational purposes.</p>
+            <p>Hi, I'm <strong>Riddhi Vikamshi</strong>, and this is a database that I created for my Programming class at Berklee. I do not own all of this information, it is all sourced from the web. I have coded this website with the help of Gemini. This is still a work in progress. Please feel free to use it for personal and/or educational purposes.</p>
         </div>
     </header>
 
-    <main>
-        <section class="search-section">
-            <input type="text" id="searchInput" placeholder="Search by Raaga name, Swaras, Scale Degrees, time it is performed at and Cross-System Equivalencies...">
-        </section>
+    <div class="app-layout">
+        
+        <aside class="sidebar">
+            <h3>Glossary</h3>
+            <div class="glossary-item">
+                <strong>Aaroh</strong>
+                <span class="scale-text">The ascending scale or pattern of notes in a raga.</span>
+            </div>
+            <div class="glossary-item">
+                <strong>Avroh</strong>
+                <span class="scale-text">The descending scale or pattern of notes in a raga.</span>
+            </div>
+            <div class="glossary-item">
+                <strong>Pakad</strong>
+                <span class="scale-text">A catchphrase or signature musical motif that instantly identifies the raga.</span>
+            </div>
+            <div class="glossary-item">
+                <strong>Swara</strong>
+                <span class="scale-text">A musical note. S, R, G, m, P, D, N correspond roughly to Do, Re, Mi, Fa, Sol, La, Ti.</span>
+            </div>
+            <div class="glossary-item">
+                <strong>Thaat</strong>
+                <span class="scale-text">The parent scale system of Hindustani music, used to classify ragas.</span>
+            </div>
+        </aside>
 
-        <section id="resultsContainer" class="results-grid">
-        </section>
-    </main>
+        <main class="main-content">
+            <section class="search-section">
+                <input type="text" id="searchInput" placeholder="Search by Raaga name, Swaras, Scale Degrees, time, or Equivalencies...">
+            </section>
+
+            <section id="resultsContainer" class="results-grid">
+                </section>
+        </main>
+
+    </div>
 
     <script src="script.js"></script> 
 </body>
