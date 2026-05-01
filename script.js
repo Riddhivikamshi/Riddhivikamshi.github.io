@@ -848,7 +848,7 @@ const ragaDatabase = [
   }
 ];
 
-console.log("Database initialized with 15 complete Ragas!");
+console.log("Database initialized with 65 complete Ragas!");
 
 // --- THE DISPLAY & SEARCH LOGIC ---
 
