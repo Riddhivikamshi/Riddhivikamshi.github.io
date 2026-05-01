@@ -889,11 +889,15 @@ function displayRagas(ragasToDisplay) {
 // Show all ragas initially
 displayRagas(ragaDatabase);
 
-// The Smart Search with Relevance Sorting
+// The Smart Search with Relevance Sorting & Comma-Agnostic Searching
 searchInput.addEventListener('input', (event) => {
-    const searchTerm = event.target.value.toLowerCase().trim();
+    const rawSearchTerm = event.target.value.toLowerCase().trim();
+    
+    // Create a "clean" version of the search term (removes all spaces and commas)
+    // The /[\s,]+/g is a tiny piece of Regex that finds spaces and commas.
+    const cleanSearchTerm = rawSearchTerm.replace(/[\s,]+/g, '');
 
-    if (searchTerm === "") {
+    if (rawSearchTerm === "") {
         displayRagas(ragaDatabase);
         return;
     }
@@ -901,23 +905,35 @@ searchInput.addEventListener('input', (event) => {
     const scoredRagas = ragaDatabase.map(raga => {
         let score = 0;
 
-        // Name
-        if (raga.name.toLowerCase().includes(searchTerm)) score += 50;
-        if (raga.name.toLowerCase().startsWith(searchTerm)) score += 50; 
+        // 1. Name Matches
+        if (raga.name.toLowerCase().includes(rawSearchTerm)) score += 50;
+        if (raga.name.toLowerCase().startsWith(rawSearchTerm)) score += 50; 
 
-        // Equivalencies
-        if (raga.westernEquivalent.toLowerCase().includes(searchTerm)) score += 40;
-        if (raga.westernEquivalent.toLowerCase().startsWith(searchTerm)) score += 40; 
+        // 2. Equivalencies Matches
+        if (raga.westernEquivalent.toLowerCase().includes(rawSearchTerm)) score += 40;
+        if (raga.westernEquivalent.toLowerCase().startsWith(rawSearchTerm)) score += 40; 
         
-        if (raga.carnaticEquivalent.toLowerCase().includes(searchTerm)) score += 40;
-        if (raga.carnaticEquivalent.toLowerCase().startsWith(searchTerm)) score += 40;
+        if (raga.carnaticEquivalent.toLowerCase().includes(rawSearchTerm)) score += 40;
+        if (raga.carnaticEquivalent.toLowerCase().startsWith(rawSearchTerm)) score += 40;
 
-        // Mood and time
-        if (raga.mood.toLowerCase().includes(searchTerm)) score += 20;
-        if (raga.time.toLowerCase().includes(searchTerm)) score += 20;
+        // 3. Mood and Time Matches
+        if (raga.mood.toLowerCase().includes(rawSearchTerm)) score += 20;
+        if (raga.time.toLowerCase().includes(rawSearchTerm)) score += 20;
 
-        // Pakad 
-        if (raga.pakad.toLowerCase().includes(searchTerm)) score += 10;
+        // --- THE NEW FIX: SWARAS, SCALES, AND PAKAD ---
+        // We clean the database strings first so they have no spaces or commas
+        const cleanAaroh = raga.aarohSwaras.toLowerCase().replace(/[\s,]+/g, '');
+        const cleanAvroh = raga.avrohSwaras.toLowerCase().replace(/[\s,]+/g, '');
+        const cleanAarohScale = raga.aarohScale.toLowerCase().replace(/[\s,]+/g, '');
+        const cleanAvrohScale = raga.avrohScale.toLowerCase().replace(/[\s,]+/g, '');
+        const cleanPakad = raga.pakad.toLowerCase().replace(/[\s,]+/g, '');
+
+        // Now we compare the clean search term against the clean database strings!
+        if (cleanAaroh.includes(cleanSearchTerm)) score += 30;
+        if (cleanAvroh.includes(cleanSearchTerm)) score += 30;
+        if (cleanAarohScale.includes(cleanSearchTerm)) score += 30;
+        if (cleanAvrohScale.includes(cleanSearchTerm)) score += 30;
+        if (cleanPakad.includes(cleanSearchTerm)) score += 30;
 
         return { raga: raga, score: score };
     });
