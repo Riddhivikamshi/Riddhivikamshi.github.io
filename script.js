@@ -845,7 +845,7 @@ const ragaDatabase = [
 		      carnaticEquivalent: "Kapi",
 		      time: "Afternoon / Any Time",
 		      mood: "Folk, Playful, Colorful"
-		    }
+		    },
 ];
 
 console.log("Database initialized with 15 complete Ragas!");
