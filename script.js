@@ -586,7 +586,7 @@ const ragaDatabase = [
     time: "Late Night",
     mood: "Romantic, Flirtatious"
   },
-{
+  {
     id: 46,
     name: "Lalit",
     aarohSwaras: "N, r, G, m, M(t), G, M(t), d, N, S'",
